@@ -37,11 +37,5 @@ UCI Student Performance Dataset adapted for
 Kenyan CBC context.
 
 ## Team
-Built for the 2026 Datathon — Social Impact Track
-```
-
-Save it, push it:
-```
-git add README.md
-git commit -m "Add README"
-git push
+Amon Mukuria
+Montel Mwendwa
