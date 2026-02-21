@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="acf1e4fb-2f95-4f1c-81a8-bc4625eed738" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/eduguide-ai.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/explore_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interventions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/career_pathways.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/interventions_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/overview.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/parent_dashboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/risk_tracker.py" afterDir="false" />
+    <list default="true" id="acf1e4fb-2f95-4f1c-81a8-bc4625eed738" name="Changes" comment="V1-EduguideAI">
+      <change beforePath="$PROJECT_DIR$/.idea/eduguide-ai.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "AmonMK"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/AmonMK/eduguide-ai.git",
+    "accountId": "39cab4d7-954c-44cf-b703-6d8dca25ed27"
+  }
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
   </component>
@@ -70,11 +73,35 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1771608112332</updated>
-      <workItem from="1771608114047" duration="10970000" />
+      <workItem from="1771608114047" duration="12034000" />
     </task>
+    <task id="LOCAL-00001" summary="V1-EduguideAI">
+      <option name="closed" value="true" />
+      <created>1771685645247</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1771685645247</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="V1-EduguideAI" />
+    <option name="LAST_COMMIT_MESSAGE" value="V1-EduguideAI" />
   </component>
 </project>
