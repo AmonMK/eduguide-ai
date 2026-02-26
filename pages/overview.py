@@ -3,20 +3,87 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from interventions import predict_student
+import io
+
+def load_data(file=None):
+    """Load uploaded file or fall back to default dataset"""
+    if file is not None:
+        if file.name.endswith('.csv'):
+            df = pd.read_csv(file, sep=',')
+        elif file.name.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(file)
+        else:
+            st.error("Unsupported file type. Please upload CSV or Excel.")
+            return None
+    else:
+        df = pd.read_csv('data/student-mat.csv', sep=',')
+
+    # Standardise columns
+    df['at_risk'] = (df['G3'] < 10).astype(int) if 'G3' in df.columns else 0
+    df['higher'] = (df['higher'] == 'yes').astype(int) if 'higher' in df.columns else 0
+    df['famsup'] = (df['famsup'] == 'yes').astype(int) if 'famsup' in df.columns else 0
+    df['schoolsup'] = (df['schoolsup'] == 'yes').astype(int) if 'schoolsup' in df.columns else 0
+
+    return df
 
 def show():
     st.title("🏠 School Overview")
     st.markdown("### Mukuru Primary School — Term 1, 2026")
     st.markdown("---")
 
-    # Load data
-    df = pd.read_csv('data/student-mat.csv', sep=',')
+    # ── File Upload Section ────────────────────────────
+    with st.expander("📂 Upload Student Data", expanded=False):
+        st.markdown("Upload your school's student results file:")
+        uploaded_file = st.file_uploader(
+            "Drag and drop or browse",
+            type=['csv', 'xlsx', 'xls'],
+            help="Accepted formats: CSV, Excel (.xlsx, .xls)"
+        )
 
-    # Create at-risk labels
-    df['at_risk'] = (df['G3'] < 10).astype(int)
-    df['higher'] = (df['higher'] == 'yes').astype(int)
-    df['famsup'] = (df['famsup'] == 'yes').astype(int)
-    df['schoolsup'] = (df['schoolsup'] == 'yes').astype(int)
+        col1, col2 = st.columns(2)
+        with col1:
+            if uploaded_file:
+                st.success(f"✅ {uploaded_file.name} uploaded successfully")
+        with col2:
+            if st.button("🔄 Clear — Use Demo Data"):
+                uploaded_file = None
+                st.session_state['uploaded_file'] = None
+                st.rerun()
+
+        st.markdown("**Expected format:**")
+        sample = pd.DataFrame({
+            'G1': [12, 4, 8],
+            'G2': [11, 5, 9],
+            'G3': [12, 4, 8],
+            'failures': [0, 2, 1],
+            'absences': [3, 20, 8],
+            'studytime': [2, 1, 2],
+            'higher': ['yes', 'no', 'yes'],
+            'famsup': ['yes', 'no', 'no'],
+            'schoolsup': ['no', 'no', 'yes']
+        })
+        st.dataframe(sample, use_container_width=True)
+
+        # Download sample template
+        csv = sample.to_csv(index=False)
+        st.download_button(
+            "⬇️ Download Sample Template",
+            data=csv,
+            file_name="eduguide_template.csv",
+            mime="text/csv"
+        )
+
+    # ── Save upload state ──────────────────────────────
+    if uploaded_file:
+        st.session_state['uploaded_file'] = uploaded_file
+
+    # ── Load data ──────────────────────────────────────
+    file_to_load = st.session_state.get('uploaded_file', None)
+    df = load_data(file_to_load)
+
+    if df is None:
+        st.error("Could not load data. Please check your file format.")
+        return
 
     # ── Top Metric Cards ───────────────────────────────
     total = len(df)
@@ -51,25 +118,24 @@ def show():
 
     with col_right:
         st.subheader("Grade Distribution")
-        fig2 = px.histogram(
-            df, x='G3', nbins=20,
-            color_discrete_sequence=['#2E5496'],
-            labels={'G3': 'Final Grade (out of 20)'}
-        )
-        fig2.add_vline(x=10, line_dash="dash",
-                       line_color="red",
-                       annotation_text="Pass Mark")
-        st.plotly_chart(fig2, use_container_width=True)
+        if 'G3' in df.columns:
+            fig2 = px.histogram(
+                df, x='G3', nbins=20,
+                color_discrete_sequence=['#2E5496'],
+                labels={'G3': 'Final Grade (out of 20)'}
+            )
+            fig2.add_vline(x=10, line_dash="dash",
+                           line_color="red",
+                           annotation_text="Pass Mark")
+            st.plotly_chart(fig2, use_container_width=True)
+        else:
+            st.info("Upload a file with G3 column to see grade distribution")
 
     st.markdown("---")
 
     # ── At Risk Students Table ─────────────────────────
     st.subheader("⚠️ Students Requiring Attention")
-    at_risk_df = df[df['at_risk'] == 1][
-        ['G1', 'G2', 'G3', 'absences', 'failures', 'studytime']
-    ].reset_index()
-    at_risk_df.columns = [
-        'ID', 'Term 1', 'Term 2', 'Final Grade',
-        'Absences', 'Past Failures', 'Study Time'
-    ]
+    cols_to_show = [c for c in ['G1', 'G2', 'G3', 'absences',
+                                 'failures', 'studytime'] if c in df.columns]
+    at_risk_df = df[df['at_risk'] == 1][cols_to_show].reset_index()
     st.dataframe(at_risk_df, use_container_width=True)
